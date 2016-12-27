@@ -16,52 +16,34 @@ export class ProductService {
 
     getProducts(filter: ProductFilter = undefined): Observable<Product[]> {
 
-        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Pink Path                                                        |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Pide al servidor que te retorne los productos ordenados de más   |
-        | reciente a menos, teniendo en cuenta su fecha de publicación.    |
-        |                                                                  |
-        | En la documentación de 'JSON Server' tienes detallado cómo hacer |
-        | la ordenación de los datos en tus peticiones, pero te ayudo      |
-        | igualmente. La querystring debe tener estos parámetros:          |
-        |                                                                  |
-        |   _sort=publishedDate&_order=DESC                                |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+        let search: URLSearchParams = new URLSearchParams();
 
-        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Red Path                                                         |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Pide al servidor que te retorne los productos filtrados por      |
-        | texto y/ por categoría.                                          |
-        |                                                                  |
-        | En la documentación de 'JSON Server' tienes detallado cómo       |
-        | filtrar datos en tus peticiones, pero te ayudo igualmente. La    |
-        | querystring debe tener estos parámetros:                         |
-        |                                                                  |
-        |   - Búsqueda por texto:                                          |
-        |       q=x (siendo x el texto)                                    |
-        |   - Búsqueda por categoría:                                      |
-        |       category.id=x (siendo x el identificador de la categoría)  |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+        if (filter) {
+            if (filter.text) {
+                search.set("q", filter.text);
+            }
+            if (filter.category) {
+                search.set("category.id", filter.category);
+            }
+            if (filter.state) {
+                search.set("state", filter.state);
+            }
+            // if (filter.price) {
+            //     search.set("price_lte", filter.price);
+            // }
+            // if (filter.seller) {
+            //     search.set("seller.id", filter.seller);
+            // }
+        }
 
-        /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Yellow Path                                                      |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-        | Pide al servidor que te retorne los productos filtrados por      |
-        | estado.                                                          |
-        |                                                                  |
-        | En la documentación de 'JSON Server' tienes detallado cómo       |
-        | filtrar datos en tus peticiones, pero te ayudo igualmente. La    |
-        | querystring debe tener estos parámetros:                         |
-        |                                                                  |
-        |   - Búsqueda por estado:                                         |
-        |       state=x (siendo x el estado)                               |
-        |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+        search.set("_sort", "publishedDate");        search.set("_order", "DESC");
+
+        let options: RequestOptions = new RequestOptions();
+        options.search = search;
 
         return this._http
-                   .get(`${this._backendUri}/products`)
-                   .map((data: Response): Product[] => Product.fromJsonToList(data.json()));
+            .get(`${this._backendUri}/products`, options)
+            .map((data: Response): Product[] => Product.fromJsonToList(data.json()));
     }
 
     getProduct(productId: number): Observable<Product> {

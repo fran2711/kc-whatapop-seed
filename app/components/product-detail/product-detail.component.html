@@ -19,7 +19,7 @@
             | fecha de publicación.                                            |
             |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-            <span>Publicado {{ _product.publishedDate }}</span>
+            <span>Publicado {{ _product.publishedDate | fromNow }}</span>
         </p>
         <p [innerHtml]="_product.description"></p>
         <user-profile [userId]="_product.seller.id"></user-profile>
@@ -35,7 +35,7 @@
         <button
             *ngIf="_product.state === 'selling'"
             (click)="showPurchaseWarning()"
-            class="button large expanded">Comprar por {{ _product.price }} €</button>
+            class="button large expanded">Comprar por {{ _product.price |  number:'1.2-2' }} €</button>
         <button
             (click)="goBack()"
             class="warning button expanded">Volver</button>

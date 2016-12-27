@@ -14,7 +14,8 @@
         <product
             *ngFor="let product of _products"
             [data]="product"
-            class="column">
+            class="column"
+            (seeProductSelected)="showProductDetail($event)">
         </product>
     </div>
     <div *ngIf="_products?.length === 0" class="text-center">
@@ -29,5 +30,5 @@
     | Modifica el elemento <a> para que navegue a la ruta  '/reset'.   |
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-    <a>Reset de productos</a>
+    <a routerLink="/reset">Reset de productos</a>
 </div>

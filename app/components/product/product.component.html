@@ -8,6 +8,8 @@
     | componente padre.                                                |
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+
+
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
     | Purple Path                                                      |
     |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
@@ -19,9 +21,10 @@
     <button
         class="button expanded"
         [class.success]="data.state === 'selling'"
-        [class.secondary]="data.state === 'sold'">
+        [class.secondary]="data.state === 'sold'"
+        (click)="notifySelectedProduct(data)">
         <span *ngIf="data.state === 'selling'">
-            Comprar por {{ data.price }} €
+            Comprar por {{ data.price | number:'1.2-2' }} €
         </span>
         <span *ngIf="data.state === 'sold'">
             Ver detalles

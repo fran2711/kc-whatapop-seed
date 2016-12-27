@@ -20,6 +20,7 @@ import { ProductService } from "./services/product.service";
 import { SoldProductsResolve } from "./services/sold-products-resolve.service";
 import { UserProfileComponent } from "./components/user-profile/user-profile.component";
 import { UserService } from "./services/user.service";
+import {FromNowPipe} from "./pipes/publication-date.pipe";
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 | Blue Path                                                        |
@@ -42,7 +43,8 @@ import { UserService } from "./services/user.service";
         ProductFilterComponent,
         ProductResetComponent,
         ProductsCollectionComponent,
-        UserProfileComponent
+        UserProfileComponent,
+        FromNowPipe
     ],
     providers: [
         BackendUriProvider,
